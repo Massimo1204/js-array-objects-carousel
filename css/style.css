@@ -13,21 +13,29 @@ div.my-carousel-images{
     min-height: 540px;
     height: 70vh;
     position: relative;
+    color: white;
+}
+
+div.my-carousel-images h1,
+div.my-carousel-images p{
+    position: absolute;
+    right: 45px;
+}
+
+div.my-carousel-images h1{
+    bottom: 80px;
 }
 
 div.my-carousel-images p{
-    position: absolute;
-    bottom: 0;
-    right: 35px;
-    font-size: 3rem;
-    color: white;
+    bottom: 20px;
+    font-size: 1.8rem;
 }
 
 div.my-thumbnails .my-thumbnail-preview img,
 div.my-carousel-images img{
     height: 100%;
     width: 100%;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 div.my-thumbnails{
