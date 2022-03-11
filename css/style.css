@@ -14,19 +14,18 @@ div.my-carousel-images{
     color: white;
 }
 
-div.my-carousel-images h1,
-div.my-carousel-images p{
+div.my-carousel-images div{
     position: absolute;
     right: 45px;
+    bottom: 20px;
 }
 
-div.my-carousel-images h1{
-    bottom: 80px;
+div.my-carousel-images div h1{
+    text-align: end;
 }
 
 div.my-carousel-images p{
-    bottom: 20px;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 div.my-thumbnails .my-thumbnail-preview img,

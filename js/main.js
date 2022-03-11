@@ -55,6 +55,8 @@ const afterCarousel = document.getElementById('my-after-carousel');
 let intervalId;
 let counter = 0;
 let previousCounter=0;
+let clicked = false;
+let scrollSpeed = 1000;
 
 for(let i=0; i<images.length; i++){
     const newThumbnailPreview = document.createElement('div');
@@ -65,32 +67,58 @@ for(let i=0; i<images.length; i++){
 
 addImage(images,carouselImage,counter,thumbnailPreview,previousCounter);
 
-afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button>"
+afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button><div><p class='m-3'>Inserisci la velocita di scorrimento in secondi</p><input id='input-speed' type='text' placeholder='ex. 1'><h1 class='mt-5 fw-bold'>Aggiungi una nuova immagine qui <i class='fas fa-arrow-down'></i></h1><div class='mt-4'><span>Image : </span><input type='text' placeholder='url image' id='image'></div> <div class='ms-3 mt-4'><span>Title : </span><input type='text' placeholder='ex. Svizzera'id='title'></div><div class=' mt-4 me-2'><span>caption : </span><input type='text' placeholder='ex. Lorem ipsum' id='role'></div><div class='mt-4'><button class='btn btn-danger fw-bold'id='submit'>Submit</button><h2 class='m-3 text-danger' id='alert'></h2></div>";
 
+const inputSpeed = document.getElementById('input-speed');
+
+inputSpeed.addEventListener('keypress',function(e){
+    if(e.key == 'Enter'){
+        if(inputSpeed.value != '' && !isNaN(inputSpeed.value)){
+            scrollSpeed = inputSpeed.value*1000;
+            stop();
+        }else{
+            document.querySelector('#my-after-carousel p').innerHTML='inserisci un numero';
+        }
+    }
+});
 document.querySelectorAll('#my-after-carousel .btn')[0].addEventListener('click',autoPrev);
 document.querySelectorAll('#my-after-carousel .btn')[1].addEventListener('click',stop);
 document.querySelectorAll('#my-after-carousel .btn')[2].addEventListener('click',autoNext);
 
-console.log(document.querySelectorAll('#my-after-carousel .btn')[1])
 function autoPrev(){
-    intervalId = setInterval(previousButton.click(),500);
+    if(!clicked){
+        intervalId = setInterval(swipePrevious,scrollSpeed);
+        clicked = true;
+    }
 }
 function stop(){
-    clearInterval(intervalId);
+    if(clicked){
+        clearInterval(intervalId);
+        clicked = false;
+    }
 }
 function autoNext(){
-    intervalId = setInterval(swipeNext,500);
+    if(!clicked){
+        intervalId = setInterval(swipeNext,scrollSpeed);
+        clicked = true;
+    }
 }
+
+document.getElementById('submit').addEventListener('click',function(){
+    
+})
 
 
 function addImage(images,carouselImage,counter,thumbnailPreview,previousCounter){
     const img = "<img src='"+images[counter].url+"'>";
+    const newDiv = document.createElement('div');
     const title = document.createElement('h1');
     const description = document.createElement('p');
     description.innerHTML = images[counter].desciption;
     title.innerHTML = images[counter].title;
     carouselImage.innerHTML= img;
-    carouselImage.append(title,description);
+    carouselImage.append(newDiv);
+    newDiv.append(title,description);
     thumbnailPreview[previousCounter].classList.remove('viewing');
     thumbnailPreview[counter].classList.add('viewing');
 }
