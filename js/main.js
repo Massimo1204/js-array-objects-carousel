@@ -21,27 +21,27 @@ const images = [
     {
         url : 'https://getwallpapers.com/wallpaper/full/4/4/b/1178094-gorgerous-sweden-desktop-wallpaper-1920x1200-windows-10.jpg',
         title : 'Lake',
-        desciption : "Tanti sassi, dell'acqua, un paio di case ed un cielo, rosa",
+        description : "Tanti sassi, dell'acqua, un paio di case ed un cielo, rosa",
     },
     {
         url : 'https://getwallpapers.com/wallpaper/full/b/4/6/300928.jpg',
         title : 'Waterfall',
-        desciption : "Molto verde e idrogeno e ossigeno soggetti impotenti alla gravità",
+        description : "Molto verde e idrogeno e ossigeno soggetti impotenti alla gravità",
     },
     {
         url : 'https://www.bwallpaperhd.com/wp-content/uploads/2019/06/ManitobaSky.jpg',
         title : 'Thunder',
-        desciption : "Può essere giorno e notte nello stesso momento? Sì, se c'è un fulmine di mezzo",
+        description : "Può essere giorno e notte nello stesso momento? Sì, se c'è un fulmine di mezzo",
     },
     {
         url : 'https://getwallpapers.com/wallpaper/full/9/b/a/410201.jpg',
         title : 'Big Rock',
-        desciption : "Voglio essere vostro schiavo e volare tra spazi stellati in catene",
+        description : "Voglio essere vostro schiavo e volare tra spazi stellati in catene",
     }, 
     {
         url : 'https://www.bwallpaperhd.com/wp-content/uploads/2019/07/SecondBeach.jpg',
         title : 'Wilson',
-        desciption : "Bob, Wilson e un legno grosso su sassini piccini",
+        description : "Bob, Wilson e un legno grosso su sassini piccini",
     }
 ];
 
@@ -58,18 +58,22 @@ let previousCounter=0;
 let clicked = false;
 let scrollSpeed = 1000;
 
-for(let i=0; i<images.length; i++){
-    const newThumbnailPreview = document.createElement('div');
-    newThumbnailPreview.classList.add('my-thumbnail-preview');
-    newThumbnailPreview.innerHTML = "<img src='"+images[i].url+"'>";
-    thumbnail.append(newThumbnailPreview);
-}
+for(let i=0; i<5; i++){
+        const newThumbnailPreview = document.createElement('div');
+        newThumbnailPreview.classList.add('my-thumbnail-preview');
+        newThumbnailPreview.innerHTML = "<img src='"+images[i].url+"'>";
+        thumbnail.append(newThumbnailPreview);
+    }
 
 addImage(images,carouselImage,counter,thumbnailPreview,previousCounter);
 
-afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button><div><p class='m-3'>Inserisci la velocita di scorrimento in secondi</p><input id='input-speed' type='text' placeholder='ex. 1'><h1 class='mt-5 fw-bold'>Aggiungi una nuova immagine qui <i class='fas fa-arrow-down'></i></h1><div class='mt-4'><span>Image : </span><input type='text' placeholder='url image' id='image'></div> <div class='ms-3 mt-4'><span>Title : </span><input type='text' placeholder='ex. Svizzera'id='title'></div><div class=' mt-4 me-2'><span>caption : </span><input type='text' placeholder='ex. Lorem ipsum' id='role'></div><div class='mt-4'><button class='btn btn-danger fw-bold'id='submit'>Submit</button><h2 class='m-3 text-danger' id='alert'></h2></div>";
+afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button><div><p class='m-3'>Inserisci la velocita di scorrimento in secondi</p><input id='input-speed' type='text' placeholder='ex. 1'><h1 class='mt-5 fw-bold'>Aggiungi una nuova immagine qui <i class='fas fa-arrow-down'></i></h1><div class='mt-4'><span>Image : </span><input type='text' placeholder='url image' id='image'></div> <div class='ms-3 mt-4'><span>Title : </span><input type='text' placeholder='ex. Svizzera'id='title'></div><div class=' mt-4 me-2'><span>caption : </span><input type='text' placeholder='ex. Lorem ipsum' id='description'></div><div class='mt-4'><button class='btn btn-danger fw-bold'id='submit'>Submit</button><h2 class='m-3 text-danger' id='alert'></h2></div>";
 
 const inputSpeed = document.getElementById('input-speed');
+const newImgUrl = document.getElementById('image');
+const newImgTitle = document.getElementById('title');
+const newImgDescription = document.getElementById('description');
+const alertMessage = document.getElementById('alert');
 
 inputSpeed.addEventListener('keypress',function(e){
     if(e.key == 'Enter'){
@@ -105,16 +109,21 @@ function autoNext(){
 }
 
 document.getElementById('submit').addEventListener('click',function(){
-    
+    alertMessage.innerHTML='';
+    if(newImgUrl.value != ''){
+        const newImage = {url : newImgUrl.value, title : newImgTitle.value , description : newImgDescription.value};
+        images.push(newImage);
+    }else{
+        alertMessage.innerHTML = 'Url immagine inserito non valido. Riprova';
+    }
 })
-
 
 function addImage(images,carouselImage,counter,thumbnailPreview,previousCounter){
     const img = "<img src='"+images[counter].url+"'>";
     const newDiv = document.createElement('div');
     const title = document.createElement('h1');
     const description = document.createElement('p');
-    description.innerHTML = images[counter].desciption;
+    description.innerHTML = images[counter].description;
     title.innerHTML = images[counter].title;
     carouselImage.innerHTML= img;
     carouselImage.append(newDiv);
