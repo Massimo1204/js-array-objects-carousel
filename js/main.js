@@ -67,56 +67,7 @@ for(let i=0; i<5; i++){
 
 addImage(images,carouselImage,counter,thumbnailPreview,previousCounter);
 
-afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button><div><p class='m-3'>Inserisci la velocita di scorrimento in secondi</p><input id='input-speed' type='text' placeholder='ex. 1'><h1 class='mt-5 fw-bold'>Aggiungi una nuova immagine qui <i class='fas fa-arrow-down'></i></h1><div class='mt-4'><span>Image : </span><input type='text' placeholder='url image' id='image'></div> <div class='ms-3 mt-4'><span>Title : </span><input type='text' placeholder='ex. Svizzera'id='title'></div><div class=' mt-4 me-2'><span>caption : </span><input type='text' placeholder='ex. Lorem ipsum' id='description'></div><div class='mt-4'><button class='btn btn-danger fw-bold'id='submit'>Submit</button><h2 class='m-3 text-danger' id='alert'></h2></div>";
-
-const inputSpeed = document.getElementById('input-speed');
-const newImgUrl = document.getElementById('image');
-const newImgTitle = document.getElementById('title');
-const newImgDescription = document.getElementById('description');
-const alertMessage = document.getElementById('alert');
-
-inputSpeed.addEventListener('keypress',function(e){
-    if(e.key == 'Enter'){
-        if(inputSpeed.value != '' && !isNaN(inputSpeed.value)){
-            scrollSpeed = inputSpeed.value*1000;
-            stop();
-        }else{
-            document.querySelector('#my-after-carousel p').innerHTML='inserisci un numero';
-        }
-    }
-});
-document.querySelectorAll('#my-after-carousel .btn')[0].addEventListener('click',autoPrev);
-document.querySelectorAll('#my-after-carousel .btn')[1].addEventListener('click',stop);
-document.querySelectorAll('#my-after-carousel .btn')[2].addEventListener('click',autoNext);
-
-function autoPrev(){
-    if(!clicked){
-        intervalId = setInterval(swipePrevious,scrollSpeed);
-        clicked = true;
-    }
-}
-function stop(){
-    if(clicked){
-        clearInterval(intervalId);
-        clicked = false;
-    }
-}
-function autoNext(){
-    if(!clicked){
-        intervalId = setInterval(swipeNext,scrollSpeed);
-        clicked = true;
-    }
-}
-
-document.getElementById('submit').addEventListener('click',function(){
-    alertMessage.innerHTML='';
-    if(newImgUrl.value != ''){
-        const newImage = {url : newImgUrl.value, title : newImgTitle.value , description : newImgDescription.value};
-        images.push(newImage);
-    }else{
-        alertMessage.innerHTML = 'Url immagine inserito non valido. Riprova';
-    }
-})
+afterCarousel.innerHTML= " <button class='btn btn-outline-dark me-5 fw-bold'>Auto Previous</button> <button class='btn btn-outline-danger fw-bold'>Stop</button> <button class='btn btn-outline-dark ms-5 fw-bold'>Auto Next</button><div><p class='m-3'>Inserisci la velocita di scorrimento in secondi</p><input id='input-speed' type='text' placeholder='ex. 1'>";
 
 function addImage(images,carouselImage,counter,thumbnailPreview,previousCounter){
     const img = "<img src='"+images[counter].url+"'>";
@@ -155,3 +106,38 @@ function swipeNext(){
 nextButton.addEventListener('click',swipeNext);
 previousButton.addEventListener('click',swipePrevious);
 
+document.querySelectorAll('#my-after-carousel .btn')[0].addEventListener('click',autoPrev);
+document.querySelectorAll('#my-after-carousel .btn')[1].addEventListener('click',stop);
+document.querySelectorAll('#my-after-carousel .btn')[2].addEventListener('click',autoNext);
+
+function autoPrev(){
+    if(!clicked){
+        intervalId = setInterval(swipePrevious,scrollSpeed);
+        clicked = true;
+    }
+}
+function stop(){
+    if(clicked){
+        clearInterval(intervalId);
+        clicked = false;
+    }
+}
+function autoNext(){
+    if(!clicked){
+        intervalId = setInterval(swipeNext,scrollSpeed);
+        clicked = true;
+    }
+}
+
+const inputSpeed = document.getElementById('input-speed');
+
+inputSpeed.addEventListener('keypress',function(e){
+    if(e.key == 'Enter'){
+        if(inputSpeed.value != '' && !isNaN(inputSpeed.value)){
+            scrollSpeed = inputSpeed.value*1000;
+            stop();
+        }else{
+            document.querySelector('#my-after-carousel p').innerHTML='inserisci un numero';
+        }
+    }
+});
